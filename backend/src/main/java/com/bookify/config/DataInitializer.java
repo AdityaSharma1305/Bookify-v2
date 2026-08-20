@@ -50,16 +50,15 @@ public class DataInitializer implements CommandLineRunner {
 
     private User upsertUser(String email, String name, Role role, int goal, String avatar) {
         return userRepository.findByEmail(email).map(u -> {
-            u.setPassword(passwordEncoder.encode("Password123!"));
             u.setEmailVerified(true);
             u.setStatus(UserStatus.ACTIVE);
-            u.setRole(role);
+            if (u.getRole() == null) u.setRole(role);
             if (u.getProfileImage() == null) u.setProfileImage(avatar);
             return userRepository.save(u);
         }).orElseGet(() -> userRepository.save(User.builder()
                 .name(name)
                 .email(email)
-                .password(passwordEncoder.encode("Password123!"))
+                .password(passwordEncoder.encode(java.util.UUID.randomUUID().toString()))
                 .role(role)
                 .status(UserStatus.ACTIVE)
                 .emailVerified(true)

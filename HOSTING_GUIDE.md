@@ -26,7 +26,7 @@ git push -u origin main
    - `DATABASE_URL`: `jdbc:postgresql://db.[YOUR_SUPABASE_PROJECT_REF].supabase.co:5432/postgres` (Copy from your Supabase Dashboard -> Project Settings -> Database -> URI / Connection String)
    - `DB_USERNAME`: `postgres`
    - `DB_PASSWORD`: `[YOUR_SUPABASE_DB_PASSWORD]`
-   - `JWT_SECRET`: `404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970`
+   - `JWT_SECRET`: `your_256_bit_secure_jwt_secret_key_here`
    - `CORS_ORIGINS`: `https://your-frontend-domain.vercel.app`
 
 ### Step 3: Deploy Frontend on Vercel or Netlify

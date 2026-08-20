@@ -46,8 +46,9 @@ public class AuthService {
 
     @Transactional
     public void register(RegisterRequest request) {
-        String cleanEmail = request.getEmail().toLowerCase().trim();
-        if (cleanEmail.contains("@")) {
+        String cleanEmail = com.bookify.util.InputSanitizer.sanitizeEmail(request.getEmail());
+        String cleanName = com.bookify.util.InputSanitizer.sanitizePlainText(request.getName());
+        if (cleanEmail != null && cleanEmail.contains("@")) {
             String domain = cleanEmail.substring(cleanEmail.indexOf('@') + 1);
             if (DISPOSABLE_EMAIL_DOMAINS.contains(domain) || !domain.contains(".")) {
                 throw new BadRequestException(
@@ -59,7 +60,7 @@ public class AuthService {
         if (userRepository.existsByEmail(cleanEmail))
             throw new DuplicateResourceException("An account with this email already exists", ErrorCode.DUPLICATE_EMAIL);
         User user = User.builder()
-                .name(request.getName().trim())
+                .name(cleanName)
                 .email(cleanEmail)
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.ROLE_USER)
@@ -79,18 +80,10 @@ public class AuthService {
 
     @Transactional
     public AuthResponse login(LoginRequest request) {
-        String email = request.getEmail().toLowerCase().trim();
+        String email = com.bookify.util.InputSanitizer.sanitizeEmail(request.getEmail());
         String raw = request.getPassword();
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UnauthorizedException("Invalid email or password", ErrorCode.INVALID_CREDENTIALS));
-        // Auto-heal demo accounts
-        if (("admin@bookify.com".equals(email) || "user@bookify.com".equals(email)) && "Password123!".equals(raw)) {
-            if (!passwordEncoder.matches(raw, user.getPassword())) {
-                user.setPassword(passwordEncoder.encode(raw));
-                user.setEmailVerified(true); user.setStatus(UserStatus.ACTIVE);
-                userRepository.save(user);
-            }
-        }
         if (!passwordEncoder.matches(raw, user.getPassword()))
             throw new UnauthorizedException("Invalid email or password", ErrorCode.INVALID_CREDENTIALS);
         if (!Boolean.TRUE.equals(user.getEmailVerified()))

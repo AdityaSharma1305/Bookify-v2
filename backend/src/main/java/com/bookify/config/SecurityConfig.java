@@ -3,6 +3,7 @@ package com.bookify.config;
 import com.bookify.security.CustomUserDetailsService;
 import com.bookify.security.JwtAuthenticationEntryPoint;
 import com.bookify.security.JwtAuthenticationFilter;
+import com.bookify.security.RateLimitingFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -27,6 +29,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final RateLimitingFilter rateLimitingFilter;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final CustomUserDetailsService customUserDetailsService;
 
@@ -49,13 +52,15 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .cors(org.springframework.security.config.Customizer.withDefaults())
+            .cors(Customizer.withDefaults())
             .csrf(AbstractHttpConfigurer::disable)
             .httpBasic(AbstractHttpConfigurer::disable)
             .formLogin(AbstractHttpConfigurer::disable)
             .exceptionHandling(ex -> ex.authenticationEntryPoint(jwtAuthenticationEntryPoint))
             .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authenticationProvider(authenticationProvider())
+            // Add Rate Limiting Filter FIRST to defend against DoS/Brute-force
+            .addFilterBefore(rateLimitingFilter, UsernamePasswordAuthenticationFilter.class)
             // Add JWT filter before Spring's UsernamePasswordAuthenticationFilter
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
             .authorizeHttpRequests(auth -> auth
@@ -74,7 +79,12 @@ public class SecurityConfig {
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
             )
-            .headers(h -> h.frameOptions(f2 -> f2.sameOrigin()));
+            .headers(h -> h
+                .frameOptions(f -> f.deny())
+                .contentTypeOptions(Customizer.withDefaults())
+                .xssProtection(Customizer.withDefaults())
+                .httpStrictTransportSecurity(hsts -> hsts.includeSubDomains(true).maxAgeInSeconds(31536000))
+            );
         return http.build();
     }
 }
