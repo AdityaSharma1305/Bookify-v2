@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { api } from '../api';
 import { useAuthStore } from '../store/authStore';
 import { Sparkles, Key, CheckCircle, ArrowRight, ShieldCheck, Mail, Lock, User, RefreshCw, Eye, EyeOff, BookOpen, HeartHandshake, Zap } from 'lucide-react';
@@ -7,8 +7,19 @@ import { Logo } from '../components/layout/Logo';
 
 export const AuthLandingPage: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { setAuth } = useAuthStore();
-  const [activeTab, setActiveTab] = useState<'LOGIN' | 'REGISTER' | 'FORGOT_PASSWORD'>('LOGIN');
+  const [activeTab, setActiveTab] = useState<'LOGIN' | 'REGISTER' | 'FORGOT_PASSWORD'>(
+    location.pathname.includes('/register') ? 'REGISTER' : 'LOGIN'
+  );
+
+  React.useEffect(() => {
+    if (location.pathname.includes('/register')) {
+      setActiveTab('REGISTER');
+    } else if (location.pathname.includes('/login')) {
+      setActiveTab('LOGIN');
+    }
+  }, [location.pathname]);
 
   // Form states
   const [name, setName] = useState('');

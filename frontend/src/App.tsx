@@ -48,7 +48,7 @@ export const App: React.FC = () => {
           <main className="flex-1">
             <Routes>
               {/* Public Routes */}
-              <Route path="/" element={isAuthenticated ? <LandingPage /> : <AuthLandingPage />} />
+              <Route path="/" element={<LandingPage />} />
               <Route path="/explore" element={<LandingPage />} />
               <Route path="/books" element={<ExplorePage />} />
               <Route path="/books/:id" element={<BookDetailPage />} />
