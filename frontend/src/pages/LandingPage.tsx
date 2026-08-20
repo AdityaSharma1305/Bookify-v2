@@ -77,45 +77,74 @@ export const LandingPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#F5EFEB] text-[#1C1917] py-6 sm:py-10 px-3 sm:px-6 lg:px-8">
       
-      {/* Outer Aesthetic Container matching mockup */}
-      <div className="max-w-7xl mx-auto space-y-12">
+      {/* Outer Aesthetic Container matching Outcrowd Bento SaaS Layout */}
+      <div className="max-w-7xl mx-auto space-y-16">
         
         {/* ========================================================================= */}
-        {/* 1. HERO 3D BOOKSHELF STAGE (Inspired by uploaded reference mockup)        */}
+        {/* 1. HERO BENTO SHOWCASE (Inspired by Outcrowd SaaS Design)                 */}
         {/* ========================================================================= */}
-        <div className="bg-[#FAF6F0] rounded-[36px] sm:rounded-[44px] p-6 sm:p-10 lg:p-14 border border-[#E8DFD1] shadow-2xl relative overflow-hidden">
+        <div className="bg-gradient-to-br from-[#FFFDF9] via-[#FAF6F0] to-[#F5ECE0] rounded-[40px] sm:rounded-[48px] p-6 sm:p-10 lg:p-14 border border-[#EADBCA] shadow-2xl relative overflow-hidden">
           
-          {/* Subtle warm background glows */}
-          <div className="absolute -top-24 -left-24 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute top-1/2 -right-24 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl pointer-events-none" />
+          {/* Vibrant Outcrowd Glow Spheres */}
+          <div className="absolute -top-28 -left-28 w-[450px] h-[450px] bg-gradient-to-tr from-amber-400/20 to-orange-500/20 rounded-full blur-3xl pointer-events-none animate-pulse-glow" />
+          <div className="absolute -bottom-28 -right-28 w-[500px] h-[500px] bg-gradient-to-bl from-purple-500/15 via-rose-500/15 to-amber-500/15 rounded-full blur-3xl pointer-events-none animate-pulse-glow" />
 
-          {/* TOP HERO ROW: New & Trending + 3D Hardcover Book + Author Card + Audiobook Card */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6 items-end relative z-10 pb-8 sm:pb-12">
+          {/* TOP HERO ROW: New & Trending + 3D Hardcover Book + Interactive Widgets */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 items-center relative z-10 pb-8 sm:pb-12">
             
-            {/* Left Column: Heading & Search Pill */}
-            <div className="lg:col-span-4 space-y-5">
-              <div className="space-y-1">
-                <h1 className="font-serif text-4xl sm:text-5xl lg:text-[54px] font-bold text-[#1C1917] tracking-tight leading-[1.08]">
-                  New &amp; <br />Trending
+            {/* Left Column: SaaS Heading, Floating Metric Pill & Search Pill */}
+            <div className="lg:col-span-4 space-y-6">
+              
+              {/* Outcrowd Live Pill */}
+              <div className="inline-flex items-center space-x-2 px-4 py-1.5 bg-gradient-to-r from-amber-500/15 via-orange-500/15 to-purple-500/15 border border-amber-500/30 rounded-full text-xs font-bold text-amber-900 shadow-xs">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+                <span>Next-Gen Literary Intelligence</span>
+              </div>
+
+              <div className="space-y-2">
+                <h1 className="font-serif text-4xl sm:text-5xl lg:text-[56px] font-bold text-[#1C1917] tracking-tight leading-[1.05]">
+                  Where Great <br />
+                  <span className="bg-gradient-to-r from-[#C59B27] via-[#E85D26] to-[#A638DE] bg-clip-text text-transparent">
+                    Stories Live.
+                  </span>
                 </h1>
-                <p className="text-sm sm:text-base text-[#7C6F5E] font-medium pt-1">
-                  Explorer new worlds from authors
+                <p className="text-sm sm:text-base text-[#7C6F5E] font-medium leading-relaxed">
+                  Explore curated bestseller stacks, AI reading analytics, and a verified peer-to-peer used book marketplace.
                 </p>
               </div>
 
-              {/* Minimal Rounded Search Pill (from mockup) */}
-              <form onSubmit={handleHeroSubmit} className="pt-2 max-w-sm">
-                <div className="relative flex items-center bg-white rounded-full border border-[#DFD5C4] shadow-sm hover:border-[#C59B27] focus-within:ring-2 focus-within:ring-[#C59B27]/30 transition-all p-1.5">
-                  <Search size={18} className="text-[#9C8E7B] ml-3.5 shrink-0" />
+              {/* High-Converting Search Pill */}
+              <form onSubmit={handleHeroSubmit} className="pt-1 max-w-md">
+                <div className="relative flex items-center bg-white rounded-2xl border-2 border-[#E5DCD0] shadow-md hover:border-[#C59B27] focus-within:border-[#C59B27] focus-within:ring-4 focus-within:ring-[#C59B27]/20 transition-all p-2">
+                  <Search size={20} className="text-[#9C8E7B] ml-3 shrink-0" />
                   <input
                     type="text"
-                    placeholder="Titles, author, or topics"
+                    placeholder="Search by title, author, or ISBN..."
                     value={heroSearch}
                     onChange={(e) => setHeroSearch(e.target.value)}
-                    className="w-full bg-transparent px-3 py-2 text-xs sm:text-sm text-[#1C1917] placeholder-[#9C8E7B] focus:outline-none font-medium"
+                    className="w-full bg-transparent px-3.5 py-2 text-xs sm:text-sm text-[#1C1917] placeholder-[#9C8E7B] focus:outline-none font-semibold"
                   />
+                  <button
+                    type="submit"
+                    className="px-4 py-2 bg-[#1C1917] hover:bg-[#C59B27] text-white text-xs font-bold rounded-xl transition-all shadow-sm shrink-0"
+                  >
+                    Search
+                  </button>
                 </div>
               </form>
+
+              {/* Quick Stat Highlights */}
+              <div className="flex items-center gap-4 pt-1 text-xs text-[#7C6F5E]">
+                <div className="flex items-center gap-1.5">
+                  <Sparkles size={14} className="text-amber-500" />
+                  <span className="font-bold text-[#1C1917]">16+ Curated Titles</span>
+                </div>
+                <div className="w-1 h-1 rounded-full bg-stone-300" />
+                <div className="flex items-center gap-1.5">
+                  <ShieldCheck size={14} className="text-emerald-600" />
+                  <span className="font-bold text-[#1C1917]">Escrow Protected</span>
+                </div>
+              </div>
             </div>
 
             {/* Center Column: 3D Upright Hardcover Featured Book on Shelf */}
