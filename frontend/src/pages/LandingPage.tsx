@@ -412,17 +412,29 @@ export const LandingPage: React.FC = () => {
             </Link>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
-            {categories.map((cat) => (
-              <Link
-                key={cat.id}
-                to={`/books?genre=${encodeURIComponent(cat.slug)}`}
-                className="p-3.5 rounded-2xl bg-white hover:bg-[#D4A359] text-[#1C1917] hover:text-white border border-[#E5DCD0] text-center transition-all group shadow-2xs"
-              >
-                <p className="font-serif font-bold text-xs group-hover:text-white transition-colors">{cat.name}</p>
-                <p className="text-[10px] text-gray-400 group-hover:text-amber-100 mt-0.5">{cat.bookCount || 0} books</p>
-              </Link>
-            ))}
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3.5">
+            {categories.map((cat, idx) => {
+              const colorSchemes = [
+                'from-amber-500/10 to-orange-500/20 border-amber-300/60 text-amber-900 group-hover:from-amber-500 group-hover:to-orange-600',
+                'from-emerald-500/10 to-teal-500/20 border-emerald-300/60 text-emerald-900 group-hover:from-emerald-600 group-hover:to-teal-600',
+                'from-blue-500/10 to-indigo-500/20 border-blue-300/60 text-blue-900 group-hover:from-blue-600 group-hover:to-indigo-600',
+                'from-purple-500/10 to-pink-500/20 border-purple-300/60 text-purple-900 group-hover:from-purple-600 group-hover:to-pink-600',
+                'from-rose-500/10 to-red-500/20 border-rose-300/60 text-rose-900 group-hover:from-rose-600 group-hover:to-red-600',
+                'from-violet-500/10 to-purple-500/20 border-violet-300/60 text-violet-900 group-hover:from-violet-600 group-hover:to-purple-600',
+              ];
+              const scheme = colorSchemes[idx % colorSchemes.length];
+
+              return (
+                <Link
+                  key={cat.id}
+                  to={`/books?genre=${encodeURIComponent(cat.slug)}`}
+                  className={`p-4 rounded-3xl bg-gradient-to-br ${scheme} border text-center transition-all duration-300 group shadow-xs hover:shadow-lg hover:-translate-y-1`}
+                >
+                  <p className="font-serif font-bold text-xs group-hover:text-white transition-colors leading-snug">{cat.name}</p>
+                  <p className="text-[10px] opacity-75 group-hover:text-white/90 mt-1 font-semibold">{cat.bookCount || 0} books</p>
+                </Link>
+              );
+            })}
           </div>
         </div>
 

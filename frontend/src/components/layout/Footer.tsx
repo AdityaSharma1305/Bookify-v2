@@ -128,14 +128,14 @@ export const Footer: React.FC = () => {
           </div>
         </div>
 
-        {/* Bottom Bar: Clean Copyright, Contact & Policy Links */}
+        {/* Bottom Bar: Clean Copyright, Creator & Policy Links (No Email Exposed) */}
         <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-stone-500">
           <div className="space-y-1 text-center md:text-left">
-            <p>
-              &copy; {new Date().getFullYear()} Bookify. Crafted with devotion by <strong className="text-stone-300">Aditya Sharma</strong>.
+            <p className="text-stone-300 font-medium">
+              &copy; {new Date().getFullYear()} Bookify &bull; Independent Literary Platform
             </p>
-            <p className="text-[11px] text-stone-600">
-              HQ: New Delhi, India &bull; Inquiries: <a href="mailto:2k22.csai.2213448@gmail.com" className="text-stone-400 hover:text-[#C59B27] underline">2k22.csai.2213448@gmail.com</a>
+            <p className="text-[11px] text-stone-500">
+              Curated and maintained with passion &bull; New Delhi, India
             </p>
           </div>
 
