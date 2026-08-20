@@ -73,13 +73,15 @@ public class AuthService {
                 .readingGoal(12)
                 .build();
         userRepository.save(user);
-        try {
-            String token = tokenService.createEmailVerificationToken(user);
-            emailService.sendVerificationEmail(user.getEmail(), user.getName(), token);
-            emailService.sendWelcomeEmail(user.getEmail(), user.getName());
-        } catch (Exception e) {
-            log.warn("Could not dispatch welcome email to {}: {}", cleanEmail, e.getMessage());
-        }
+        java.util.concurrent.CompletableFuture.runAsync(() -> {
+            try {
+                String token = tokenService.createEmailVerificationToken(user);
+                emailService.sendVerificationEmail(user.getEmail(), user.getName(), token);
+                emailService.sendWelcomeEmail(user.getEmail(), user.getName());
+            } catch (Exception e) {
+                log.warn("Could not dispatch welcome email: {}", e.getMessage());
+            }
+        });
     }
 
     @Transactional

@@ -36,12 +36,13 @@ export const AuthLandingPage: React.FC = () => {
     setError('');
     setLoading(true);
     try {
-      const res = await api.login({ email: email.trim(), password });
+      const res = await api.login({ email: email.trim().toLowerCase(), password });
       const { user, accessToken, refreshToken } = res.data.data;
       setAuth(user, accessToken, refreshToken);
-      window.location.href = '/';
+      navigate('/');
     } catch (err: any) {
-      setError(err.response?.data?.message || 'Invalid credentials. Check your email & password.');
+      console.error('Login error:', err);
+      setError(err.response?.data?.message || err.message || 'Invalid credentials. Check your email & password.');
     } finally {
       setLoading(false);
     }
@@ -99,14 +100,14 @@ export const AuthLandingPage: React.FC = () => {
         const loginRes = await api.login({ email: email.trim().toLowerCase(), password });
         const { user: loggedInUser, accessToken, refreshToken } = loginRes.data.data;
         setAuth(loggedInUser, accessToken, refreshToken);
-        window.location.href = '/';
-        return;
+        navigate('/');
       } catch (loginErr) {
         setSuccessMessage(`Account registered successfully! Please sign in with ${email}.`);
         setActiveTab('LOGIN');
       }
     } catch (err: any) {
-      setError(err.response?.data?.message || 'Registration failed. Email might already exist in database.');
+      console.error('Registration error:', err);
+      setError(err.response?.data?.message || err.message || 'Registration failed. Email might already exist in database.');
     } finally {
       setLoading(false);
     }

@@ -31,10 +31,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Component
 public class RateLimitingFilter extends OncePerRequestFilter {
 
-    private static final int LOGIN_LIMIT = 5;
-    private static final int REGISTER_LIMIT = 5;
-    private static final int OTP_LIMIT = 3;
-    private static final int GLOBAL_LIMIT = 120;
+    private static final int LOGIN_LIMIT = 60;
+    private static final int REGISTER_LIMIT = 60;
+    private static final int OTP_LIMIT = 20;
+    private static final int GLOBAL_LIMIT = 600;
     private static final long WINDOW_MILLIS = 60_000L; // 1 minute sliding window
 
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -83,7 +83,7 @@ public class RateLimitingFilter extends OncePerRequestFilter {
 
         RequestBucket bucket = ipBuckets.computeIfAbsent(bucketKey, k -> new RequestBucket());
 
-        // Periodically prune stale buckets if map grows too large (anti memory exhaustion)
+        // Periodically prune stale buckets if map grows too large
         if (ipBuckets.size() > 10_000) {
             pruneStaleBuckets();
         }
@@ -95,6 +95,15 @@ public class RateLimitingFilter extends OncePerRequestFilter {
             response.resetBuffer();
             response.setStatus(HttpStatus.TOO_MANY_REQUESTS.value());
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+
+            String origin = request.getHeader("Origin");
+            if (origin != null && !origin.isBlank()) {
+                response.setHeader("Access-Control-Allow-Origin", origin);
+                response.setHeader("Access-Control-Allow-Credentials", "true");
+            } else {
+                response.setHeader("Access-Control-Allow-Origin", "*");
+            }
+
             response.setHeader("Retry-After", String.valueOf(retryAfterSec));
             response.setHeader("X-RateLimit-Limit", String.valueOf(maxLimit));
             response.setHeader("X-RateLimit-Remaining", "0");
