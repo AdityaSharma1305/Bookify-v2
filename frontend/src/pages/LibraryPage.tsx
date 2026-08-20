@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { api } from '../api';
 import { ReadingProgressItem, FavoriteItem, CollectionItem, ReadingStatus } from '../types';
 import { BookCard } from '../components/books/BookCard';
+import { BookGridSkeleton } from '../components/common/Skeleton';
 import { Bookmark, Heart, FolderPlus, Plus, Check } from 'lucide-react';
 
 export const LibraryPage: React.FC = () => {
@@ -94,9 +95,7 @@ export const LibraryPage: React.FC = () => {
 
       {/* Tab Content */}
       {loading ? (
-        <div className="text-center py-16">
-          <div className="w-10 h-10 border-4 border-[#C59B27] border-t-transparent rounded-full animate-spin mx-auto" />
-        </div>
+        <BookGridSkeleton count={8} />
       ) : activeTab === 'FAVORITES' ? (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
           {favorites.length > 0 ? (

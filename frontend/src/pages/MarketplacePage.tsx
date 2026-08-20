@@ -3,6 +3,7 @@ import { api } from '../api';
 import { ListingItem, BookCondition } from '../types';
 import { useAuthStore } from '../store/authStore';
 import { ListingCard } from '../components/marketplace/ListingCard';
+import { MarketplaceCardSkeleton } from '../components/common/Skeleton';
 import { SellBookModal } from '../components/marketplace/SellBookModal';
 import { CheckoutModal } from '../components/marketplace/CheckoutModal';
 import { Tag, Plus, Search, Filter, ShieldCheck, Sparkles } from 'lucide-react';
@@ -116,8 +117,10 @@ export const MarketplacePage: React.FC = () => {
 
       {/* Listing Grid */}
       {loading ? (
-        <div className="text-center py-20">
-          <div className="w-10 h-10 border-4 border-accent border-t-transparent rounded-full animate-spin mx-auto" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+          {Array.from({ length: 8 }).map((_, i) => (
+            <MarketplaceCardSkeleton key={i} />
+          ))}
         </div>
       ) : listings.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">

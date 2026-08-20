@@ -90,9 +90,27 @@ export const BookDetailPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="max-w-5xl mx-auto px-4 py-16 text-center">
-        <div className="w-12 h-12 border-4 border-accent border-t-transparent rounded-full animate-spin mx-auto" />
-        <p className="text-sm text-gray-500 mt-4">Loading book details...</p>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10 animate-pulse">
+        <div className="h-4 bg-[#DFD5C4] rounded-lg w-28" />
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 bg-[#FAF6F0] p-6 sm:p-10 rounded-[36px] border border-[#EDE5D8]">
+          <div className="md:col-span-4 flex justify-center">
+            <div className="w-56 h-80 bg-gradient-to-br from-[#DFD5C4] to-[#C59B27]/20 rounded-2xl shadow-xl" />
+          </div>
+          <div className="md:col-span-8 space-y-4">
+            <div className="h-10 bg-[#DFD5C4] rounded-2xl w-3/4" />
+            <div className="h-5 bg-[#E8DFD1] rounded-lg w-1/3" />
+            <div className="h-6 bg-amber-500/20 rounded-full w-40" />
+            <div className="space-y-2 pt-4">
+              <div className="h-4 bg-[#EDE5D8] rounded w-full" />
+              <div className="h-4 bg-[#EDE5D8] rounded w-5/6" />
+              <div className="h-4 bg-[#EDE5D8] rounded w-4/6" />
+            </div>
+            <div className="flex gap-4 pt-6">
+              <div className="h-12 bg-[#C59B27]/30 rounded-2xl w-44" />
+              <div className="h-12 bg-white rounded-2xl w-44 border border-[#DFD5C4]" />
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

@@ -95,8 +95,16 @@ export const AuthLandingPage: React.FC = () => {
     setLoading(true);
     try {
       await api.register({ name: name.trim(), email: email.trim().toLowerCase(), password });
-      setSuccessMessage(`Account registered successfully! You can now sign in with ${email}.`);
-      setActiveTab('LOGIN');
+      try {
+        const loginRes = await api.login({ email: email.trim().toLowerCase(), password });
+        const { user: loggedInUser, accessToken, refreshToken } = loginRes.data.data;
+        setAuth(loggedInUser, accessToken, refreshToken);
+        window.location.href = '/';
+        return;
+      } catch (loginErr) {
+        setSuccessMessage(`Account registered successfully! Please sign in with ${email}.`);
+        setActiveTab('LOGIN');
+      }
     } catch (err: any) {
       setError(err.response?.data?.message || 'Registration failed. Email might already exist in database.');
     } finally {

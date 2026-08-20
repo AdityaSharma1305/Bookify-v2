@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { api } from '../api';
 import { BookSummary, Category, PageResponse } from '../types';
 import { BookCard } from '../components/books/BookCard';
+import { BookGridSkeleton } from '../components/common/Skeleton';
 import { Search, Filter, ChevronLeft, ChevronRight } from 'lucide-react';
 
 export const ExplorePage: React.FC = () => {
@@ -157,10 +158,12 @@ export const ExplorePage: React.FC = () => {
 
         <main className="md:col-span-3 space-y-6">
           {loading ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-5">
-              {Array.from({ length: 9 }).map((_, i) => (
-                <div key={i} className="aspect-[2/3] bg-gray-200 animate-pulse rounded-card" />
-              ))}
+            <div className="space-y-6">
+              <div className="flex justify-between items-center">
+                <div className="h-5 bg-[#DFD5C4] rounded-lg w-40 animate-pulse" />
+                <div className="h-8 bg-[#DFD5C4] rounded-xl w-32 animate-pulse" />
+              </div>
+              <BookGridSkeleton count={9} />
             </div>
           ) : books.length > 0 ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-5">

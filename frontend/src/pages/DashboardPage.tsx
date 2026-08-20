@@ -4,6 +4,8 @@ import { UserDashboard } from '../types';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 import { BookOpen, CheckCircle, Flame, Star, Target, TrendingUp } from 'lucide-react';
 
+import { StatsGridSkeleton } from '../components/common/Skeleton';
+
 export const DashboardPage: React.FC = () => {
   const [dashboard, setDashboard] = useState<UserDashboard | null>(null);
   const [loading, setLoading] = useState(true);
@@ -17,8 +19,10 @@ export const DashboardPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="text-center py-20">
-        <div className="w-10 h-10 border-4 border-accent border-t-transparent rounded-full animate-spin mx-auto" />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8 animate-pulse">
+        <div className="h-28 bg-[#FAF6F0] rounded-3xl border border-[#EDE5D8]" />
+        <StatsGridSkeleton />
+        <div className="h-72 bg-[#FAF6F0] rounded-3xl border border-[#EDE5D8]" />
       </div>
     );
   }

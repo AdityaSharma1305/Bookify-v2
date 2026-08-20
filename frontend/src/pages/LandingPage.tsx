@@ -1,10 +1,11 @@
-﻿import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { api } from '../api';
 import { BookSummary, Category, ListingItem } from '../types';
 import { Search, Play, Pause, RotateCcw, RotateCw, Star, ArrowRight, Sparkles, Tag, ShieldCheck, ShoppingCart, Volume2, Headphones } from 'lucide-react';
 import { formatPrice } from '../lib/utils';
 import { CheckoutModal } from '../components/marketplace/CheckoutModal';
+import { HeroStageSkeleton, BookGridSkeleton, MarketplaceCardSkeleton } from '../components/common/Skeleton';
 
 export const LandingPage: React.FC = () => {
   const navigate = useNavigate();
@@ -58,6 +59,20 @@ export const LandingPage: React.FC = () => {
 
   // Lower shelf books (Recent Bestsellers)
   const recentBestsellers = books.slice(1, 6);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#F5EFEB] py-6 sm:py-10 px-3 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto space-y-12">
+          <HeroStageSkeleton />
+          <div className="space-y-4">
+            <div className="h-8 bg-[#DFD5C4] rounded-2xl w-64 animate-pulse" />
+            <BookGridSkeleton count={8} />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#F5EFEB] text-[#1C1917] py-6 sm:py-10 px-3 sm:px-6 lg:px-8">
