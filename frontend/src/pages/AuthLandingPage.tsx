@@ -23,6 +23,7 @@ export const AuthLandingPage: React.FC = () => {
 
   // Status states
   const [loading, setLoading] = useState(false);
+  const [loadingMsg, setLoadingMsg] = useState('');
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
@@ -35,16 +36,29 @@ export const AuthLandingPage: React.FC = () => {
     }
     setError('');
     setLoading(true);
+    setLoadingMsg('Signing you in...');
+    // Show warm-up message if it takes > 4 seconds (Render cold start)
+    const warmupTimer = setTimeout(() => setLoadingMsg('Server is waking up, please wait a moment...'), 4000);
     try {
       const res = await api.login({ email: email.trim().toLowerCase(), password });
+      clearTimeout(warmupTimer);
       const { user, accessToken, refreshToken } = res.data.data;
       setAuth(user, accessToken, refreshToken);
       navigate('/');
     } catch (err: any) {
+      clearTimeout(warmupTimer);
       console.error('Login error:', err);
-      setError(err.response?.data?.message || err.message || 'Invalid credentials. Check your email & password.');
+      const msg = err.response?.data?.message || err.message || '';
+      if (msg.toLowerCase().includes('invalid') || msg.toLowerCase().includes('credentials') || err.response?.status === 401) {
+        setError('Invalid email or password. Please check your credentials and try again.');
+      } else if (err.code === 'ECONNABORTED' || err.code === 'ERR_NETWORK' || msg.toLowerCase().includes('timeout')) {
+        setError('Server took too long to respond. Please try again in a few seconds.');
+      } else {
+        setError(msg || 'Login failed. Please try again.');
+      }
     } finally {
       setLoading(false);
+      setLoadingMsg('');
     }
   };
 
@@ -94,24 +108,38 @@ export const AuthLandingPage: React.FC = () => {
 
     setError('');
     setLoading(true);
+    setLoadingMsg('Creating your account...');
+    const warmupTimer = setTimeout(() => setLoadingMsg('Server is warming up, this may take 10–30 seconds on first load...'), 5000);
     try {
       await api.register({ name: name.trim(), email: email.trim().toLowerCase(), password });
+      clearTimeout(warmupTimer);
+      setLoadingMsg('Account created! Logging you in...');
       try {
         const loginRes = await api.login({ email: email.trim().toLowerCase(), password });
         const { user: loggedInUser, accessToken, refreshToken } = loginRes.data.data;
         setAuth(loggedInUser, accessToken, refreshToken);
         navigate('/');
       } catch (loginErr) {
-        setSuccessMessage(`Account registered successfully! Please sign in with ${email}.`);
+        setSuccessMessage(`Account created! Please sign in with ${email}.`);
         setActiveTab('LOGIN');
       }
     } catch (err: any) {
+      clearTimeout(warmupTimer);
       console.error('Registration error:', err);
-      setError(err.response?.data?.message || err.message || 'Registration failed. Email might already exist in database.');
+      const msg = err.response?.data?.message || err.message || '';
+      if (msg.toLowerCase().includes('email') && (msg.toLowerCase().includes('exist') || msg.toLowerCase().includes('duplicate'))) {
+        setError('This email is already registered. Please log in instead.');
+      } else if (err.code === 'ECONNABORTED' || err.code === 'ERR_NETWORK') {
+        setError('Server is taking too long. Please wait a moment and try again.');
+      } else {
+        setError(msg || 'Registration failed. Please try again.');
+      }
     } finally {
       setLoading(false);
+      setLoadingMsg('');
     }
   };
+
 
   const GOOGLE_CLIENT_ID =
     import.meta.env.VITE_GOOGLE_CLIENT_ID ||
@@ -491,7 +519,7 @@ export const AuthLandingPage: React.FC = () => {
                 className="w-full py-3.5 bg-accent text-white font-bold text-sm rounded-xl hover:bg-accent-hover transition-all shadow-md hover:shadow-lg disabled:opacity-50 flex items-center justify-center space-x-2"
               >
                 {loading ? (
-                  <span>Signing in...</span>
+                  <span className="text-center leading-tight">{loadingMsg || 'Signing in...'}</span>
                 ) : (
                   <>
                     <span>Sign In to Bookify</span>
@@ -658,8 +686,9 @@ export const AuthLandingPage: React.FC = () => {
                 disabled={loading || !registerAllMet || password !== confirmPassword}
                 className="w-full py-3.5 bg-accent text-white font-bold text-sm rounded-xl hover:bg-accent-hover transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
               >
-                {loading ? 'Creating account...' : 'Create Free Account'}
+                {loading ? (loadingMsg || 'Creating account...') : 'Create Free Account'}
               </button>
+
 
               {/* Official Google Identity Button */}
               <div id="googleSignInBtnRegister" className="w-full flex justify-center min-h-[40px]" />

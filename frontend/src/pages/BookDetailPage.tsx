@@ -270,6 +270,86 @@ export const BookDetailPage: React.FC = () => {
         </div>
       </div>
 
+      {/* AI Book Summary Card */}
+      {book.description && (
+        <section className="bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 p-8 rounded-2xl border border-amber-200/60 shadow-sm space-y-5">
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-gradient-to-br from-amber-400 to-orange-500 rounded-xl shadow-sm">
+              <Sparkles size={18} className="text-white" />
+            </div>
+            <div>
+              <h2 className="font-serif text-xl font-bold text-primary">Book Summary</h2>
+              <p className="text-xs text-amber-700/80 font-medium">Curated overview · What to expect from this book</p>
+            </div>
+          </div>
+
+          {/* Main Summary */}
+          <div className="bg-white/70 backdrop-blur-sm rounded-xl p-5 border border-amber-100">
+            <p className="text-gray-700 text-sm leading-relaxed">{book.description}</p>
+          </div>
+
+          {/* Quick Stats Row */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div className="bg-white/80 rounded-xl p-3.5 text-center border border-amber-100">
+              <p className="text-2xl font-bold text-amber-600">{book.pageCount || '—'}</p>
+              <p className="text-[11px] text-gray-500 font-semibold mt-0.5">Pages</p>
+            </div>
+            <div className="bg-white/80 rounded-xl p-3.5 text-center border border-amber-100">
+              <p className="text-2xl font-bold text-amber-600">
+                {book.pageCount ? `${Math.round(book.pageCount / 30)}h` : '—'}
+              </p>
+              <p className="text-[11px] text-gray-500 font-semibold mt-0.5">Est. Read Time</p>
+            </div>
+            <div className="bg-white/80 rounded-xl p-3.5 text-center border border-amber-100">
+              <p className="text-2xl font-bold text-amber-600">{book.averageRating > 0 ? book.averageRating.toFixed(1) : '—'}</p>
+              <p className="text-[11px] text-gray-500 font-semibold mt-0.5">Avg Rating</p>
+            </div>
+            <div className="bg-white/80 rounded-xl p-3.5 text-center border border-amber-100">
+              <p className="text-2xl font-bold text-amber-600">{book.publicationDate ? new Date(book.publicationDate).getFullYear() : '—'}</p>
+              <p className="text-[11px] text-gray-500 font-semibold mt-0.5">Published</p>
+            </div>
+          </div>
+
+          {/* Genre Tags */}
+          {book.categories && book.categories.length > 0 && (
+            <div className="flex flex-wrap gap-2">
+              <span className="text-xs font-semibold text-gray-500 self-center">Genres:</span>
+              {book.categories.map((c) => (
+                <span
+                  key={c.id}
+                  className="px-3 py-1 bg-gradient-to-r from-amber-400 to-orange-400 text-white text-xs font-bold rounded-full shadow-sm"
+                >
+                  {c.name}
+                </span>
+              ))}
+            </div>
+          )}
+
+          {/* Who should read */}
+          <div className="bg-white/70 rounded-xl p-4 border border-amber-100 flex gap-3">
+            <div className="text-2xl flex-shrink-0">📖</div>
+            <div>
+              <p className="text-xs font-bold text-primary mb-1">Who should read this?</p>
+              <p className="text-xs text-gray-600 leading-relaxed">
+                {book.categories && book.categories.some(c => c.slug === 'self-help' || c.slug === 'psychology')
+                  ? 'Perfect for anyone looking to grow personally, build better habits, or understand human behavior more deeply.'
+                  : book.categories && book.categories.some(c => c.slug === 'business-finance')
+                  ? 'Essential reading for entrepreneurs, investors, and professionals aiming to master financial success.'
+                  : book.categories && book.categories.some(c => c.slug === 'technology')
+                  ? 'A must-read for developers, engineers, and technologists who want to write better, cleaner, more maintainable code.'
+                  : book.categories && book.categories.some(c => c.slug === 'sci-fi-fantasy' || c.slug === 'fiction')
+                  ? 'Ideal for readers who love immersive storytelling, rich worldbuilding, and unforgettable characters.'
+                  : book.categories && book.categories.some(c => c.slug === 'romance')
+                  ? 'Perfect for readers who enjoy emotionally powerful love stories with real-world depth and nuance.'
+                  : book.categories && book.categories.some(c => c.slug === 'history')
+                  ? 'Great for curious minds who want to understand civilizations, cultures, and the forces that shaped humanity.'
+                  : 'Recommended for any reader looking to be inspired, informed, and entertained by a great book.'}
+              </p>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Reviews */}
       <section className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm space-y-6">
         <h2 className="font-serif text-2xl font-bold text-primary">Community Reviews</h2>

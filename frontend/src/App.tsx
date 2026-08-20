@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Navbar } from './components/layout/Navbar';
@@ -25,6 +25,13 @@ const queryClient = new QueryClient();
 
 export const App: React.FC = () => {
   const { isAuthenticated } = useAuthStore();
+
+  // Wake up Render backend on app load (free tier sleeps after inactivity)
+  useEffect(() => {
+    const BACKEND = import.meta.env.VITE_API_BASE_URL?.replace('/api', '') || 'https://bookify-v2-glg0.onrender.com';
+    fetch(`${BACKEND}/actuator/health`, { signal: AbortSignal.timeout(30000) }).catch(() => {});
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>

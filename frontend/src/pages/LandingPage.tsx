@@ -24,7 +24,7 @@ export const LandingPage: React.FC = () => {
     async function loadData() {
       try {
         const [bookRes, catRes, listRes] = await Promise.all([
-          api.searchBooks({ size: 16 }),
+          api.searchBooks({ size: 50 }),
           api.getCategories(),
           api.getMarketplaceListings({ size: 6 }),
         ]);
