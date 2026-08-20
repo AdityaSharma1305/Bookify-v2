@@ -128,19 +128,30 @@ export const Footer: React.FC = () => {
           </div>
         </div>
 
-        {/* Bottom Bar: Clean Copyright & Back to Top Button */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone-500">
-          <p className="text-center sm:text-left">
-            &copy; {new Date().getFullYear()} Bookify. Designed &amp; engineered with dedication by <strong className="text-stone-300">Aditya Sharma</strong>.
-          </p>
+        {/* Bottom Bar: Clean Copyright, Contact & Policy Links */}
+        <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-stone-500">
+          <div className="space-y-1 text-center md:text-left">
+            <p>
+              &copy; {new Date().getFullYear()} Bookify. Crafted with devotion by <strong className="text-stone-300">Aditya Sharma</strong>.
+            </p>
+            <p className="text-[11px] text-stone-600">
+              HQ: New Delhi, India &bull; Inquiries: <a href="mailto:2k22.csai.2213448@gmail.com" className="text-stone-400 hover:text-[#C59B27] underline">2k22.csai.2213448@gmail.com</a>
+            </p>
+          </div>
 
-          <button
-            onClick={scrollToTop}
-            className="flex items-center space-x-1.5 px-4 py-2 bg-stone-900 hover:bg-stone-800 text-stone-300 hover:text-white rounded-xl border border-stone-800 transition shadow-sm text-xs font-semibold"
-          >
-            <span>Back to Top</span>
-            <ArrowUp size={14} />
-          </button>
+          <div className="flex items-center flex-wrap justify-center gap-4 text-xs text-stone-400">
+            <Link to="/privacy" className="hover:text-[#C59B27] transition-colors">Privacy Policy</Link>
+            <span>&bull;</span>
+            <Link to="/terms" className="hover:text-[#C59B27] transition-colors">Terms of Service</Link>
+            <span>&bull;</span>
+            <button
+              onClick={scrollToTop}
+              className="flex items-center space-x-1.5 px-3.5 py-1.5 bg-stone-900 hover:bg-stone-800 text-stone-300 hover:text-white rounded-xl border border-stone-800 transition shadow-sm text-xs font-semibold"
+            >
+              <span>Back to Top</span>
+              <ArrowUp size={14} />
+            </button>
+          </div>
         </div>
       </div>
     </footer>

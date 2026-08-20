@@ -21,6 +21,13 @@ import { MarketplacePage } from './pages/MarketplacePage';
 import { OrdersPage } from './pages/OrdersPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 
+import { PrivacyPolicyPage } from './pages/PrivacyPolicyPage';
+import { TermsPage } from './pages/TermsPage';
+import { ThankYouPage } from './pages/ThankYouPage';
+import { CookieConsentBanner } from './components/common/CookieConsentBanner';
+import { StickyMobileCTA } from './components/common/StickyMobileCTA';
+import { AnalyticsTracker } from './components/common/AnalyticsTracker';
+
 const queryClient = new QueryClient();
 
 export const App: React.FC = () => {
@@ -35,6 +42,7 @@ export const App: React.FC = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
+        <AnalyticsTracker />
         <div className="flex flex-col min-h-screen">
           <Navbar />
           <main className="flex-1">
@@ -48,6 +56,9 @@ export const App: React.FC = () => {
               <Route path="/register" element={<AuthLandingPage />} />
               <Route path="/verify-email" element={<VerifyEmailPage />} />
               <Route path="/marketplace" element={<MarketplacePage />} />
+              <Route path="/privacy" element={<PrivacyPolicyPage />} />
+              <Route path="/terms" element={<TermsPage />} />
+              <Route path="/thank-you" element={<ThankYouPage />} />
 
               {/* Protected User Routes */}
               <Route element={<ProtectedRoute />}>
@@ -67,6 +78,8 @@ export const App: React.FC = () => {
             </Routes>
           </main>
           <Footer />
+          <StickyMobileCTA />
+          <CookieConsentBanner />
         </div>
       </BrowserRouter>
     </QueryClientProvider>
