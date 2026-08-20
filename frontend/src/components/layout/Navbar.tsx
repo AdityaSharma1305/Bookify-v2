@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuthStore } from '../../store/authStore';
 import { Search, Bookmark, User, LogOut, Shield, ShoppingBag, Headphones, BookOpen, MoreVertical } from 'lucide-react';
@@ -84,6 +84,16 @@ export const Navbar: React.FC = () => {
             >
               Marketplace
             </Link>
+
+            {/* Admin Control Center link */}
+            {user?.role === 'ROLE_ADMIN' && (
+              <Link
+                to="/admin"
+                className="text-xs font-bold text-purple-700 bg-purple-100 hover:bg-purple-200 border border-purple-300 hidden sm:inline px-3 py-1.5 rounded-full transition-colors flex items-center space-x-1"
+              >
+                <span>⚙️ Admin Panel</span>
+              </Link>
+            )}
 
             {/* Bookmark Icon */}
             <Link

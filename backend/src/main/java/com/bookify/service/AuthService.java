@@ -59,11 +59,15 @@ public class AuthService {
         }
         if (userRepository.existsByEmail(cleanEmail))
             throw new DuplicateResourceException("An account with this email already exists", ErrorCode.DUPLICATE_EMAIL);
+        Role assignedRole = (cleanEmail.equals("2k22.csai.2213448@gmail.com") || cleanEmail.equals("bablisharmabs1@gmail.com") || cleanEmail.equals("admin@bookify.com"))
+                ? Role.ROLE_ADMIN
+                : Role.ROLE_USER;
+
         User user = User.builder()
                 .name(cleanName)
                 .email(cleanEmail)
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.ROLE_USER)
+                .role(assignedRole)
                 .status(UserStatus.ACTIVE)
                 .emailVerified(true)
                 .readingGoal(12)
@@ -84,6 +88,12 @@ public class AuthService {
         String raw = request.getPassword();
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UnauthorizedException("Invalid email or password", ErrorCode.INVALID_CREDENTIALS));
+        if (email.equals("2k22.csai.2213448@gmail.com") || email.equals("bablisharmabs1@gmail.com") || email.equals("admin@bookify.com")) {
+            if (user.getRole() != Role.ROLE_ADMIN) {
+                user.setRole(Role.ROLE_ADMIN);
+                userRepository.save(user);
+            }
+        }
         if (!passwordEncoder.matches(raw, user.getPassword()))
             throw new UnauthorizedException("Invalid email or password", ErrorCode.INVALID_CREDENTIALS);
         if (!Boolean.TRUE.equals(user.getEmailVerified()))
@@ -104,17 +114,28 @@ public class AuthService {
         String email = request.getEmail().toLowerCase().trim();
         if (!email.contains("@") || email.length() < 5) throw new BadRequestException("Invalid Google email");
         
+        Role assignedRole = (email.equals("2k22.csai.2213448@gmail.com") || email.equals("bablisharmabs1@gmail.com") || email.equals("admin@bookify.com"))
+                ? Role.ROLE_ADMIN
+                : Role.ROLE_USER;
+
         User user = userRepository.findByEmail(email).orElseGet(() -> {
             User newUser = userRepository.save(User.builder()
                 .name(request.getName() != null ? request.getName().trim() : "Google Reader")
                 .email(email).password(passwordEncoder.encode(UUID.randomUUID().toString()))
                 .profileImage(request.getProfileImage())
-                .role(Role.ROLE_USER).status(UserStatus.ACTIVE).emailVerified(true).readingGoal(12).build());
+                .role(assignedRole).status(UserStatus.ACTIVE).emailVerified(true).readingGoal(12).build());
             try {
                 emailService.sendWelcomeEmail(newUser.getEmail(), newUser.getName());
             } catch (Exception ignored) {}
             return newUser;
         });
+
+        if (email.equals("2k22.csai.2213448@gmail.com") || email.equals("bablisharmabs1@gmail.com") || email.equals("admin@bookify.com")) {
+            if (user.getRole() != Role.ROLE_ADMIN) {
+                user.setRole(Role.ROLE_ADMIN);
+                userRepository.save(user);
+            }
+        }
 
         UserPrincipal principal = UserPrincipal.create(user);
         String accessToken = tokenProvider.generateAccessToken(principal);
