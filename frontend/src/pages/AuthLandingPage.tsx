@@ -104,9 +104,7 @@ export const AuthLandingPage: React.FC = () => {
     }
   };
 
-  const GOOGLE_CLIENT_ID =
-    import.meta.env.VITE_GOOGLE_CLIENT_ID ||
-    '236418381713-v49dnelbt02udf5euipsnpb1a58dp7mq.apps.googleusercontent.com';
+  const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || '';
 
   // Helper to parse Google JWT credential
   const parseGoogleJwt = (token: string) => {

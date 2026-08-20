@@ -18,6 +18,14 @@
 
 ---
 
+## 📸 UI & Experience Showcase
+
+| 🌟 Curated Editorial Library & Stacks | 🔐 Luxury Security & Transactional Email |
+| :---: | :---: |
+| ![Bookify Editorial Showcase](docs/screenshots/landing-preview.png) | ![Bookify Transactional Email](docs/screenshots/email-template.png) |
+
+---
+
 ## ✨ Key Features & Architecture Highlights
 
 ### 1. 🛡️ Enterprise Security & Authentication Engine
@@ -82,6 +90,7 @@ Bookify/
 │   ├── tailwind.config.js         # Obsidian & Gold luxury color palette
 │   └── package.json
 │
+├── docs/screenshots/              # Showcase UI screenshots for documentation
 ├── .gitignore                     # Production ignore rules (.env, data/, target/)
 └── README.md                      # System documentation
 ```
@@ -99,26 +108,26 @@ Bookify/
 PORT=8088
 
 # Cloud Database (e.g. Supabase PostgreSQL)
-DATABASE_URL=jdbc:postgresql://db.your-project.supabase.co:5432/postgres
-DB_USERNAME=postgres
-DB_PASSWORD=your_cloud_database_password
+DATABASE_URL=jdbc:postgresql://your-db-host.supabase.co:5432/postgres
+DB_USERNAME=your_db_username
+DB_PASSWORD=your_db_password
 
 # Resend Transactional Email API Key
 MAIL_HOST=smtp.resend.com
 MAIL_PORT=587
 MAIL_USERNAME=resend
-MAIL_PASSWORD=re_your_resend_api_key_here
+MAIL_PASSWORD=re_your_resend_api_key
 MAIL_FROM=Bookify <onboarding@resend.dev>
 
-# Security Secrets
-JWT_SECRET=404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+# Security Secrets (Generate a 256-bit random string)
+JWT_SECRET=your_256_bit_secure_jwt_secret_key_here
 FRONTEND_URL=http://localhost:5173
 ```
 
 ### Frontend `.env` (`frontend/.env`):
 ```env
 VITE_API_URL=http://localhost:8088/api
-VITE_GOOGLE_CLIENT_ID=236418381713-v49dnelbt02udf5euipsnpb1a58dp7mq.apps.googleusercontent.com
+VITE_GOOGLE_CLIENT_ID=your-google-oauth-client-id.apps.googleusercontent.com
 ```
 
 ---
