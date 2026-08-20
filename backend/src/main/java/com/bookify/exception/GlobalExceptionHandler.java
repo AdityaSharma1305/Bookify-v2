@@ -131,8 +131,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGlobalException(Exception ex, HttpServletRequest request) {
         log.error("Unhandled exception at " + request.getRequestURI(), ex);
+        String msg = (ex.getMessage() != null && !ex.getMessage().isBlank()) ? ex.getMessage() : "An unexpected error occurred. Please try again later.";
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ErrorResponse.builder()
-                .message("An unexpected error occurred. Please try again later.")
+                .message(msg)
                 .errorCode(ErrorCode.INTERNAL_SERVER_ERROR)
                 .path(request.getRequestURI())
                 .timestamp(LocalDateTime.now())
