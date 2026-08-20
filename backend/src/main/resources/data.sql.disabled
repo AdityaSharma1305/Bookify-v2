@@ -1,0 +1,36 @@
+-- Seed default categories
+INSERT IGNORE INTO categories (id, name, slug, description, created_at) VALUES
+(1, 'Fiction', 'fiction', 'Imaginative narration and storytelling', NOW()),
+(2, 'Romance', 'romance', 'Stories focusing on romantic relationships and love', NOW()),
+(3, 'Mystery', 'mystery', 'Suspenseful investigations, puzzles, and crimes', NOW()),
+(4, 'Thriller', 'thriller', 'High excitement, suspense, and unexpected twists', NOW()),
+(5, 'Science Fiction', 'science-fiction', 'Futuristic concepts, space exploration, and sci-fi', NOW()),
+(6, 'Fantasy', 'fantasy', 'Magic, mythical creatures, and fantastical worlds', NOW()),
+(7, 'Biography', 'biography', 'True stories of remarkable people and lives', NOW()),
+(8, 'History', 'history', 'Historical events, civilizations, and insights', NOW()),
+(9, 'Self-Help', 'self-help', 'Personal growth, productivity, and mindfulness', NOW()),
+(10, 'Technology', 'technology', 'Software engineering, artificial intelligence, and computing', NOW()),
+(11, 'Business', 'business', 'Entrepreneurship, leadership, economics, and finance', NOW()),
+(12, 'Academic', 'academic', 'Scholarly research, textbooks, and deep subjects', NOW());
+
+-- Seed sample authors
+INSERT IGNORE INTO authors (id, name, biography, country, profile_image, created_at) VALUES
+(1, 'Robert C. Martin', 'Uncle Bob is an American software engineer and co-author of the Agile Manifesto.', 'United States', 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=400', NOW()),
+(2, 'Joshua Bloch', 'Author of Effective Java, chief architect at Sun Microsystems and Google.', 'United States', 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400', NOW()),
+(3, 'Frank Herbert', 'American science-fiction author best known for the novel Dune.', 'United States', 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400', NOW()),
+(4, 'James Clear', 'Author of the #1 New York Times bestseller Atomic Habits.', 'United States', 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400', NOW());
+
+-- Seed demo users (Password is: Password123!)
+-- BCrypt hash for 'Password123!': $2a$12$4v071F90h/sU9kI0Y4g85.k8tS0aK8mN2Q2c0R4a5E6t7Y8u9I0oP
+INSERT IGNORE INTO users (id, name, email, password, role, status, email_verified, bio, reading_goal, created_at) VALUES
+(1, 'Admin User', 'admin@bookify.com', '$2a$12$0kL0bYq0O9N0eF9W3X9eSeYF1Q7R2S5T8U1V4W7X0Y3Z6A9B2C5D8', 'ROLE_ADMIN', 'ACTIVE', true, 'Lead platform administrator', 25, NOW()),
+(2, 'Jane Reader', 'user@bookify.com', '$2a$12$0kL0bYq0O9N0eF9W3X9eSeYF1Q7R2S5T8U1V4W7X0Y3Z6A9B2C5D8', 'ROLE_USER', 'ACTIVE', true, 'Avid tech and fantasy reader.', 15, NOW());
+
+
+-- Seed Marketplace Used Book Listings
+INSERT INTO book_listings (seller_id, book_id, condition_grade, condition_description, listing_price, original_price, shipping_fee, status)
+VALUES
+(2, 1, 'LIKE_NEW', 'Read once, flawless condition with no marks or creases.', 8.99, 29.99, 0.00, 'AVAILABLE'),
+(2, 2, 'VERY_GOOD', 'Slight corner shelf wear, pages are completely clean.', 9.50, 24.99, 1.50, 'AVAILABLE'),
+(1, 3, 'GOOD', 'Minimal highlighting in first chapter, spine perfectly intact.', 7.25, 19.99, 0.00, 'AVAILABLE'),
+(2, 4, 'LIKE_NEW', 'Brand new copy, gift duplicate.', 11.00, 27.50, 0.00, 'AVAILABLE');

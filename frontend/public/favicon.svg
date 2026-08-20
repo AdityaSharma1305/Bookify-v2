@@ -1,0 +1,45 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1A1829"/>
+      <stop offset="100%" stop-color="#0E0D17"/>
+    </linearGradient>
+    <linearGradient id="gold-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FCEE21"/>
+      <stop offset="40%" stop-color="#FFD000"/>
+      <stop offset="100%" stop-color="#E85D26"/>
+    </linearGradient>
+    <linearGradient id="book-left" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF8A48"/>
+      <stop offset="100%" stop-color="#E85D26"/>
+    </linearGradient>
+    <linearGradient id="book-right" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFAB73"/>
+      <stop offset="100%" stop-color="#FF7A30"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#E85D26" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <!-- Luxury Container -->
+  <rect width="64" height="64" rx="16" fill="url(#bg-grad)"/>
+  <rect x="1" y="1" width="62" height="62" rx="15" stroke="url(#gold-grad)" stroke-width="1.5" stroke-opacity="0.6"/>
+
+  <!-- Open Book Emblem -->
+  <g filter="url(#shadow)">
+    <!-- Left Open Page -->
+    <path d="M31 16C21 15 13 18 11 20V45C13 43 21 40 31 41V16Z" fill="url(#book-left)"/>
+    <!-- Right Open Page -->
+    <path d="M33 16C43 15 51 18 53 20V45C51 43 43 40 33 41V16Z" fill="url(#book-right)"/>
+    
+    <!-- Hardcover Spine / Center Notch -->
+    <path d="M31 16H33V42H31V16Z" fill="#FFFFFF" fill-opacity="0.9"/>
+
+    <!-- Gold Silk Bookmark Ribbon -->
+    <path d="M32 12V28L36 25L40 28V12H32Z" fill="url(#gold-grad)"/>
+
+    <!-- Floating Brilliance Star -->
+    <path d="M49 13L50.5 16.5L54 18L50.5 19.5L49 23L47.5 19.5L44 18L47.5 16.5L49 13Z" fill="#FFFFFF"/>
+  </g>
+</svg>

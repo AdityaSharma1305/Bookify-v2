@@ -1,0 +1,43 @@
+﻿# Environment variables & secrets (CRITICAL - NEVER COMMIT)
+.env
+.env.local
+.env.*.local
+*.env
+
+# Local Databases & storage
+data/
+*.db
+*.mv.db
+*.trace.db
+
+# Dependencies
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# Java / Maven build outputs
+target/
+*.jar
+*.war
+*.ear
+*.class
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Editor & OS directories
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.DS_Store
+Thumbs.db

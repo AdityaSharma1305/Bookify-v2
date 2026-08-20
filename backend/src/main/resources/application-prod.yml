@@ -1,0 +1,59 @@
+﻿server:
+  port: ${PORT:8088}
+  servlet:
+    context-path: /
+  error:
+    include-stacktrace: never
+    include-message: never
+    include-binding-errors: never
+
+spring:
+  application:
+    name: bookify-api
+  datasource:
+    url: ${DATABASE_URL:jdbc:mysql://localhost:3306/bookifydb?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:root}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    open-in-view: false
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+bookify:
+  app:
+    name: Bookify
+    base-url: ${APP_BASE_URL:https://api.bookify.com}
+    frontend-url: ${FRONTEND_URL:https://bookify.com}
+    mail-from: ${MAIL_FROM:noreply@bookify.com}
+  jwt:
+    secret: ${JWT_SECRET:404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970}
+    access-token-expiration-ms: 900000 # 15 min
+    refresh-token-expiration-days: 7
+  cloudinary:
+    cloud-name: ${CLOUDINARY_CLOUD_NAME:demo}
+    api-key: ${CLOUDINARY_API_KEY:demo}
+    api-secret: ${CLOUDINARY_API_SECRET:demo}
+  cors:
+    allowed-origins: ${CORS_ORIGINS:https://bookify.com,https://www.bookify.com}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: when_authorized

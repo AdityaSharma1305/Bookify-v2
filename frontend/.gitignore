@@ -1,0 +1,19 @@
+﻿# Environment variables (CRITICAL)
+.env
+.env.local
+.env.*.local
+
+# Dependencies & Build
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# Logs
+*.log
+
+# Editor & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

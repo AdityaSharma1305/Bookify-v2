@@ -1,0 +1,25 @@
+﻿# Local database files
+data/
+*.db
+*.mv.db
+*.trace.db
+
+# Build outputs
+target/
+*.jar
+*.war
+*.class
+
+# Environment & Config overrides
+.env
+*.env
+application-local.yml
+
+# Logs
+*.log
+
+# IDE files
+.idea/
+.vscode/
+*.iml
+.DS_Store
